@@ -1,0 +1,10 @@
+<div class="card-group">
+  <div *ngFor="let user of users" class="card">
+    <img [src]="user.avatar" class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+      <p class="card-text">Hello, my name is {{user.first_name}} and i like the apples.</p>
+      <p class="card-text"><small class="text-muted">ID: {{user.id}}</small></p>
+    </div>
+  </div>
+</div>
