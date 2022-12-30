@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+//* Models *----------------------------------------------------------------
 import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
+
+//*STORE Actions *-------------------------------------------------------
+import { loadUsers } from 'src/app/store/actions';
+import { AppState } from '../../store/app.reducer';
 
 @Component({
   selector: 'app-lista',
@@ -10,15 +16,19 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ListaComponent implements OnInit {
 
-  users:User[] = [];
+  users: User[] = [];
+  loading: boolean = false;
+  error!: any;
 
-  constructor(public userService: UserService) { }
+  constructor(public store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(data => {
-      console.log('data', data);
-      this.users = data;
+    this.store.select('users').subscribe(({users, loading, error}) => {
+      this.users = users
+      this.loading = loading
+      this.error = error
     });
+    this.store.dispatch(loadUsers());
   }
 
 

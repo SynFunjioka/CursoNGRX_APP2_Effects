@@ -9,12 +9,25 @@ import {map, catchError} from 'rxjs';
 })
 export class UserService {
 
+  api:string = 'https://reqres.in/api';
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    console.log(`${environment.apiUrl}/users?per_page=2`);
+    // console.log(`${this.api}/users?per_page=2`);
 
-    return this.http.get(`${environment.apiUrl}/users`).pipe(
+    return this.http.get(`${this.api}/users`).pipe(
+      map(({data}:any) => data),
+      catchError(err => {
+        console.warn(err)
+        return err;
+      })
+    );
+  }
+
+  getUserByID(userID: string) {
+    // console.log(`${this.api}/users?per_page=2`);
+
+    return this.http.get(`${this.api}/users/${userID}`).pipe(
       map(({data}:any) => data),
       catchError(err => {
         console.warn(err)
